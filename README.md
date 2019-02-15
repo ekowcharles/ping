@@ -1,10 +1,10 @@
 # ping
 
-Simple go web server.
+Simple go web application.
 
 ## How it works
 
-The application exposes a `/ping` endpoint on port `8993` and returns the string of the form `ping {version}` with http status code 200.
+The application exposes a `/ping` endpoint on port `8993` and returns the string of the form `ping {version}` with `HTTP 200`.
 
 # License
 
