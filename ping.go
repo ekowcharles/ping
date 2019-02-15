@@ -16,7 +16,7 @@ func main() {
 		panic(err.Error())
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, rq *http.Request) {
+	http.HandleFunc("/ping", func(w http.ResponseWriter, rq *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, fmt.Sprintf("pong %s", string(version)))
 	})
