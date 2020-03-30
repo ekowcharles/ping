@@ -31,7 +31,7 @@ func main() {
 		io.WriteString(w, fmt.Sprintf("pong %s", version))
 	})
 
-	fmt.Sprintf("Listening on port %s ...\n", port)
+	fmt.Printf("Listening on port %s ...\n", port)
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
