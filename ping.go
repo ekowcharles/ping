@@ -6,20 +6,39 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 	defer fmt.Println("Exited!")
 
-	version, err := ioutil.ReadFile(".version")
+	port := getEnv("PORT", "8993")
+
+	v, err := ioutil.ReadFile(".version")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	http.HandleFunc("/ping", func(w http.ResponseWriter, rq *http.Request) {
+	version := string(v)
+
+	http.HandleFunc("/", func(w http.ResponseWriter, rq *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		io.WriteString(w, fmt.Sprintf("pong %s", string(version)))
+		io.WriteString(w, fmt.Sprintf("Version: %s, Port: %s", version, port))
 	})
 
-	log.Fatal(http.ListenAndServe(":8993", nil))
+	http.HandleFunc("/ping", func(w http.ResponseWriter, rq *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		io.WriteString(w, fmt.Sprintf("pong %s", version))
+	})
+
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
+}
+
+func getEnv(key, fallback string) string {
+	value := os.Getenv(key)
+	if len(value) == 0 {
+		return fallback
+	}
+
+	return value
 }
